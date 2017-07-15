@@ -1,0 +1,31 @@
+{
+  "name": "hs_liri",
+  "version": "1.0.0",
+  "description": "language, interpretation, recognition, bootcamp",
+  "main": "index.js",
+  "dependencies": {
+    "node-spotify-api": "^1.0.5",
+    "request": "^2.81.0",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intaglioplate312/liri-node-app.git"
+  },
+  "keywords": [
+    "language",
+    "interpretation",
+    "recognition",
+    "bootcamp"
+  ],
+  "author": "hes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/intaglioplate312/liri-node-app/issues"
+  },
+  "homepage": "https://github.com/intaglioplate312/liri-node-app#readme"
+}
