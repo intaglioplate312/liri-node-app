@@ -1,6 +1,6 @@
 //At the top of the `liri.js` file, write the code you need to grab the data from keys.js. Then store the keys in a variable.
 var dataKeys = require("./keys.js");
-var twitter = require('twitter');
+var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var request = require('request');
 var fs = require('fs'); //file system
@@ -8,33 +8,29 @@ var fs = require('fs'); //file system
 var action = process.argv[2];
 var value = process.argv[3];
 
-//8Make it so liri.js can take in one of the following commands:
 
 //my-tweets
-//node liri.js my-tweets
-//This will show your last 20 tweets and when they were created at in your terminal/bash window
-function getTweets() {
+function myTweets() {
+    //pulling keys from file
     var client = new twitter(dataKeys.twitterKeys);
-
+    //show your last 20 tweets and when they were created 
     var params = { screen_name: 'JustoffLSD', count: 20 };
 
-    client.get('statuses/user_timeline', params, function(error, tweets, response) {
-
-        if (!error) {
-            var data = []; //empty array to hold data
-            for (var i = 0; i < tweets.length; i++) {
-                data.push({
-                    'Tweets: ': tweets[i].text,
-                    'created at: ': tweets[i].created_at,
-                });
-            }
-            console.log(data);
-            writeToLog(data);
-        }
+    client.get('https://api.twitter.com/1.1/statuses/user_timeline.json', function(error, tweets, response) {
+        tweets.forEach(function(element) {
+            console.log(element.text + '     ' + "\n" + element.created_at);
+            console.log("\n--------------------------------------------------------");
+        });
     });
 };
 
 //spotify-this-song
+
+function spotifyThis () {
+      //pulling keys from file
+    var client = new twitter(dataKeys.twitterKeys);
+};
+  
 //This will show the following information about the song in your terminal/bash window
 //Artist(s)
 //The song's name
@@ -43,50 +39,65 @@ function getTweets() {
 //If no song is provided then your program will default to "The Sign" by Ace of Base.
 
 //movie-this
-//This will output the following information to your terminal/bash window:
-//* Title of the movie.
-//* Year the movie came out.
-//* IMDB Rating of the movie.
-//* Rotten Tomatoes Rating of the movie.
-//* Country where the movie was produced.
-//* Language of the movie.
-//* Plot of the movie.
-//* Actors in the movie.
-//If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.
+function movieThis(value) {
+    var omdbURL = "http://www.omdbapi.com/?apikey=40e9cece&t=";
+    //If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.
+    if (!value) {
+        value = 'Mr. Nobody';
 
+        request(omdbURL + value + '&tomatoes=true&r=json', function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                jsonBody = JSON.parse(body);
+                console.log('================================================ ');
+                console.log('Title: ' + jsonBody.Title);
+                console.log('Year: ' + jsonBody.Year);
+                console.log('IMDb Rating: ' + jsonBody.imdbRating);
+                console.log('Rotten Tomatoes Rating: ' + jsonBody.tomatoRating);
+                console.log('Language: ' + jsonBody.Language);
+                console.log('Plot: ' + jsonBody.Plot);
+                console.log('Actors: ' + jsonBody.Actors);
+                console.log('================================================ ');
+
+            };
+        });
+    };
+};
 //do-what-it-says
 //Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
-//It should run `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
-//Feel free to change the text in that document to test out the feature for other commands.
 function doWhatItSays() {
-    fs.readFile('random.txt', 'utf8', function(error, data) {
+    fs.readFile('./random.txt', 'utf8', function(error, data) {
         if (error) {
             console.log(error);
         } else {
             var dataArr = data.split(',');
-            if (dataArr[0] === 'spotify') {
+            if (dataArr[0] === 'spotify-this-song') {
                 spotifyThis(dataArr[1]);
             }
-            if (dataArr[0] === 'omdb') {
+            if (dataArr[0] === 'movie-this') {
                 omdbThis(dataArr[1]);
             }
         }
     });
+};
 
-    switch (action) {
-        case 'mytweets':
-            myTweets();
-            break;
-        case 'spotify':
-            spotifyThis(value);
-            break;
-        case 'omdb':
-            omdbThis(value);
-            break;
-        case 'random':
-            random();
-            break;
-            //Bonus
-            //In addition to logging the data to your terminal/bash window, output the data to a .txt file called `log.txt`.
-            //Make sure you append each command you run to the `log.txt` file. 
-            //Do not overwrite your file each time you run a command
+switch (action) {
+    //node liri.js my-tweets
+    case 'my-tweets':
+        myTweets();
+        break;
+    case 'spotify-this-song':
+        spotifyThis(value);
+        break;
+    //node liri.js movie-this
+    case 'movie-this':
+        movieThis(value);
+        break;
+    //run `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
+    case 'do-what-it-says':
+        doWhatItSays();
+        break;
+};
+//Bonus
+//In addition to logging the data to your terminal/bash window, output the data to a .txt file called `log.txt`.
+//Make sure you append each command you run to the `log.txt` file. 
+//Do not overwrite your file each time you run a command
