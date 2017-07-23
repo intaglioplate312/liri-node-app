@@ -1,10 +1,10 @@
 //testing page for twitter
+
 var dataKeys = require("./keys.js");
 var twitter = require('twitter');
 
 function getTweets() {
     var client = new twitter(dataKeys.twitterKeys);
-
     var params = { screen_name: 'JustoffLSD', count: 20 };
 
     client.get('statuses/user_timeline', params, function(error, tweets, response) {

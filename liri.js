@@ -5,6 +5,9 @@ var Spotify = require('node-spotify-api');
 var request = require('request');
 var fs = require('fs'); //file system
 
+var action = process.argv[2];
+var value = process.argv[3];
+
 //8Make it so liri.js can take in one of the following commands:
 
 //my-tweets
@@ -70,7 +73,20 @@ function doWhatItSays() {
         }
     });
 
-    //Bonus
-    //In addition to logging the data to your terminal/bash window, output the data to a .txt file called `log.txt`.
-    //Make sure you append each command you run to the `log.txt` file. 
-    //Do not overwrite your file each time you run a command
+    switch (action) {
+        case 'mytweets':
+            myTweets();
+            break;
+        case 'spotify':
+            spotifyThis(value);
+            break;
+        case 'omdb':
+            omdbThis(value);
+            break;
+        case 'random':
+            random();
+            break;
+            //Bonus
+            //In addition to logging the data to your terminal/bash window, output the data to a .txt file called `log.txt`.
+            //Make sure you append each command you run to the `log.txt` file. 
+            //Do not overwrite your file each time you run a command
