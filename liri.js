@@ -39,20 +39,6 @@ function getTweets() {
 //The album that the song is from
 //If no song is provided then your program will default to "The Sign" by Ace of Base.
 
-
-var spotify = new Spotify({
-    id: 'b19cf4c559204e82bb7d2ff12172bacf',
-    secret: '93f148e7622b4aadbe0e6603b86010bc'
-});
-
-spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
-    if (err) {
-        return console.log('Error occurred: ' + err);
-    }
-
-    console.log(data);
-});
-
 //movie-this
 //This will output the following information to your terminal/bash window:
 //* Title of the movie.
@@ -64,13 +50,6 @@ spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, d
 //* Plot of the movie.
 //* Actors in the movie.
 //If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.
-
-
-request('http://www.google.com', function(error, response, body) {
-    console.log('error:', error); // Print the error if one occurred 
-    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
-    console.log('body:', body); // Print the HTML for the Google homepage. 
-});
 
 //do-what-it-says
 //Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
