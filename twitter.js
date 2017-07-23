@@ -3,22 +3,15 @@
 var dataKeys = require("./keys.js");
 var twitter = require('twitter');
 
-function getTweets() {
+function myTweets() {
     var client = new twitter(dataKeys.twitterKeys);
     var params = { screen_name: 'JustoffLSD', count: 20 };
 
-    client.get('statuses/user_timeline', params, function(error, tweets, response) {
-
-        if (!error) {
-            var data = []; //empty array to hold data
-            for (var i = 0; i < tweets.length; i++) {
-                data.push({
-                    'Tweets: ': tweets[i].text,
-                    'created at: ': tweets[i].created_at,
-                });
-            }
-            console.log(data);
-            writeToLog(data);
-        }
+    client.get('https://api.twitter.com/1.1/statuses/user_timeline.json', function(error, tweets, response) {
+        tweets.forEach(function(element) {
+            console.log(element.text + '     ' + "\n" + element.created_at);
+            console.log("\n--------------------------------------------------------");
+        });
     });
 };
+myTweets();
