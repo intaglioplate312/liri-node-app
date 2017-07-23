@@ -17,7 +17,7 @@ Commands to use LIRI
 Please use the following commands:
 
 To see upto 20 of my scintillating tweets use:
-node liri.js my-tweets
+node liri.js tweet-me
 
 To information on a song from Spotify:
 node liri.js spotify-this-song 'song title'
